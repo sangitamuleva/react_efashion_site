@@ -12,6 +12,8 @@ import About from './About';
 import Contact from './Contact';
 import {Layout} from './components/Layout';
 import {Navsbar} from './components/Navsbar';
+import Category from './models/Category';
+import AddCategoryForm from './models/AddCategoryForm';
 
 function App() {
   return (
@@ -21,7 +23,10 @@ function App() {
      <BrowserRouter>
       <Switch>
         <Route path='/home' ><Home/></Route>
+        <Route path='/category/add' ><AddCategoryForm/></Route>
       
+        <Route path='/category' ><Category/></Route>
+        
         <Route path='/about'  ><About/></Route>
         <Route path='/contact' ><Contact/></Route>
       </Switch>
