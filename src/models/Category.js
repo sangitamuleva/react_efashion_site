@@ -1,121 +1,48 @@
 import React, { useState, useEffect } from "react";
 import "./../css/style.css";
-import { Table, Button, Modal, Form } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
+
+import categoryDataService from "../services/categorySrvices";
+import { Link } from "react-router-dom";
 
 const Category = () => {
 	// initialize category list using usestate hooks
 	const [category_list, setCategory_list] = useState([]);
 
-	// open close model
-	const [modalShow, setModalShow] = React.useState(false);
-
-	// for category update
-	// for category update
-	const [category_name, setCategory_name] = useState("");
-
 	// useffect hook to fetch data ,fire when app loads
 	useEffect(() => {
-		let api_url = "http://127.0.0.1:8000/category/";
-		const getCategory = () => {
-			fetch(api_url)
-				.then((res) => {
-					// Unfortunately, fetch doesn't send (404 error)
-					// into the cache itself
-					// You have to send it, as I have done below
-					if (res.status >= 400) {
-						throw new Error("Server responds with error!");
-					}
-					return res.json();
-				})
-				.then((categories) => {
-					setCategory_list(categories);
-				});
-		};
-
-		getCategory();
+		retrieveAllCategory();
 	}, []);
 
-	function MyVerticallyCenteredModal(props) {
-		return (
-			<Modal
-				animation={false}
-				{...props}
-				size="lg"
-				aria-labelledby="contained-modal-title-vcenter"
-				centered
-			>
-				<Modal.Header closeButton>
-					<Modal.Title id="contained-modal-title-vcenter">
-						Update Category
-					</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<Form>
-						<Form.Group controlId="category_name" onSubmit={(e)=>update_category(e,props)}>
-							<Form.Label>Category Name</Form.Label>
-							<Form.Control
-								type="text"
-								placeholder={props.category.category_name}
-								value={category_name}
-								onChange={(e) => setCategory_name(e.target.value)}
-							/>
-						</Form.Group>
-						<Button onClick={props.onHide} variant="light">
-							Cancel
-						</Button>{" "}
-						<Button variant="primary" type="submit">
-							Update
-						</Button>
-					</Form>
-				</Modal.Body>
-				<Modal.Footer></Modal.Footer>
-			</Modal>
-		);
-	}
-	// ------------------------------
-	const getCookie = (name) => {
-		let cookieValue = null;
-		if (document.cookie && document.cookie !== "") {
-			const cookies = document.cookie.split(";");
-			for (let i = 0; i < cookies.length; i++) {
-				const cookie = cookies[i].trim();
-				// Does this cookie string begin with the name we want?
-				if (cookie.substring(0, name.length + 1) === name + "=") {
-					cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-					break;
-				}
-			}
-		}
-		return cookieValue;
+	const retrieveAllCategory = () => {
+		categoryDataService
+			.getAll()
+			.then((response) => {
+				setCategory_list(response.data);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
 	};
 
-	// -------------------------------
-	// update category
-	const update_category = (e) => {
-		// e.preventDefault();
-		console.log(e);
-		var add_url = `http://127.0.0.1:8000/category/update/$/`;
-		var csrf_token = getCookie("csrftoken");
-
-		fetch(add_url, {
-			method: "POST",
-			headers: {
-				"Content-type": "application/json",
-				"X-CSRFToken": csrf_token,
-			},
-			body: JSON.stringify({ category_name }),
-		}).then((res) => {
-			if (res.status >= 400) {
-				throw new Error("Server responds with error!");
-			}
-		});
+	const refreshList = () => {
+		retrieveAllCategory();
 	};
 
-	// ---------------------------------------
+	const deleteCategory = (id) => {
+		categoryDataService
+			.remove(id)
+			.then((response) => {
+				refreshList();
+				// history.push("/category");
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
 	return (
 		<div>
 			<h1 className="text-center mt-4 pt-4">Categories</h1>
-			{/* <Button variant="primary">Add New</Button>{" "} */}
 
 			<Table striped bordered hover className="mt-5 pt-5">
 				<thead>
@@ -126,25 +53,31 @@ const Category = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{category_list.map((c) => (
-						<tr key={c.id}>
-							<td>#</td>
-							<td>{c.category_name}</td>
-							<td>
-								<Button variant="info" onClick={() => setModalShow(true)}>
-									Update
-								</Button>{" "}
-								<MyVerticallyCenteredModal
-									show={modalShow}
-									onHide={() => setModalShow(false)}
-									category={c}
-								/>
-							</td>
-							<td>
-								<Button variant="danger">Delete</Button>{" "}
-							</td>
+				
+					{category_list ? (
+						category_list.map((category, index) => (
+							<tr key={index}>
+								<td>#</td>
+								<td>{category.category_name}</td>
+								<td>
+									<Link to={"/category/" + category.id}>Update</Link>{" "}
+								</td>
+								<td>
+									<Button
+										variant="danger"
+										onClick={(e) => deleteCategory(category.id)}
+									>
+										Delete
+									</Button>{" "}
+								</td>
+							</tr>
+						))
+					) : (
+						<tr>
+							<td>No Category</td>
 						</tr>
-					))}
+					)
+					}
 				</tbody>
 			</Table>
 		</div>
