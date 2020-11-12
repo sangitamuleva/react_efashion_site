@@ -21,6 +21,8 @@ export const Navsbar = (props) => {
 					</NavDropdown>
 					<Nav.Link href="/about">About Us</Nav.Link>
 					<Nav.Link href="/contact">Contact</Nav.Link>
+					<Nav.Link href="/signup">Signup</Nav.Link>
+					<Nav.Link href="/login">Login</Nav.Link>
 				</Nav>
 			</Navbar.Collapse>
 		</Navbar>

@@ -1,23 +1,23 @@
 import http from "../http_common";
 
 const getAll = () => {
-  return http.get("");
+  return http.get("category/");
 };
 
 const get = id => {
-  return http.get(`${id}`);
+  return http.get(`category/${id}`);
 };
 
 const create = data => {
-  return http.post("create/", data);
+  return http.post("category/create/", data);
 };
 
 const update = (id, data) => {
-  return http.post(`update/${id}/`, data);
+  return http.post(`category/update/${id}/`, data);
 };
 
 const remove = id => {
-  return http.delete(`delete/${id}/`);
+  return http.delete(`category/delete/${id}/`);
 };
 
 // const removeAll = () => {

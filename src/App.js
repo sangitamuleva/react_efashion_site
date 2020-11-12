@@ -13,6 +13,10 @@ import Contact from './Contact';
 import {Layout} from './components/Layout';
 import {Navsbar} from './components/Navsbar';
 import Category from './models/Category';
+import UserLogin from './models/user/UserLogin';
+import UserSignup from './models/user/UserSignup';
+
+
 import AddCategoryForm from './models/AddCategoryForm';
 import CategoryUpdateDelete from './models/CategoryUpdateDelete';
 
@@ -32,6 +36,9 @@ function App() {
         
         <Route path='/about'  ><About/></Route>
         <Route path='/contact' ><Contact/></Route>
+        <Route exact path='/login' ><UserLogin/></Route>
+        <Route exact path='/signup' ><UserSignup/></Route>
+       
       </Switch>
      </BrowserRouter>
      </Layout>
