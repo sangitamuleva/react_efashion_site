@@ -4,16 +4,20 @@ import { Button, Form, Container, Row, Col } from "react-bootstrap";
 
 import { useHistory } from "react-router-dom";
 
+import { Redirect } from "react-router-dom";
+
+import { useSelector } from "react-redux";
 const CategoryUpdateDelete = (props) => {
+	const { isLoggedIn } = useSelector((state) => state.auth);
+
 	const initialCategoryState = {
 		id: null,
 		category_name: "",
 	};
 	const [CurrentCategory, setCurrentCategory] = useState(initialCategoryState);
 
+	const history = useHistory();
 
-    const history = useHistory();
-    
 	const getCategory = (id) => {
 		CategoryDataService.get(id)
 			.then((response) => {
@@ -25,8 +29,14 @@ const CategoryUpdateDelete = (props) => {
 	};
 
 	useEffect(() => {
-		getCategory(props.match.params.id);
+		if (isLoggedIn === true) {
+			getCategory(props.match.params.id);
+		}
 	}, [props.match.params.id]);
+
+	if (isLoggedIn === false) {
+		return <Redirect to="/login" />;
+	}
 
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
@@ -34,18 +44,18 @@ const CategoryUpdateDelete = (props) => {
 	};
 
 	const updateCategory = (e) => {
-        e.preventDefault()
-		CategoryDataService.update(CurrentCategory.id, CurrentCategory)
-			.then((response) => {
+		e.preventDefault();
+		CategoryDataService.update(CurrentCategory.id, CurrentCategory).then(
+			(response) => {
 				// setMessage("The tutorial was updated successfully!");
 				if (response.status >= 400) {
 					throw new Error("Server responds with error!");
 				} else {
-                    history.push("/category");
-                    // this.context.router.history.push('/')
+					history.push("/category");
+					// this.context.router.history.push('/')
 				}
-			})
-			
+			}
+		);
 	};
 	return (
 		<Container>
@@ -64,13 +74,18 @@ const CategoryUpdateDelete = (props) => {
 									onChange={handleInputChange}
 								/>
 							</Form.Group>
-
-							<Button variant="primary" type="submit" onClick={updateCategory}>
-								Update Category
-							</Button>
-							<Button variant="light" href="/category">
-								Cancel
-							</Button>
+							<Form.Group>
+								<Button
+									variant="primary"
+									type="submit"
+									onClick={updateCategory}
+								>
+									Update Category
+								</Button>{" "}
+								<Button variant="light" href="/category">
+									Cancel
+								</Button>
+							</Form.Group>
 						</Form>
 					</Col>
 				</Row>

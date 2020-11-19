@@ -5,16 +5,29 @@ import { Table, Button } from "react-bootstrap";
 import categoryDataService from "../services/categorySrvices";
 import { Link } from "react-router-dom";
 
+import { Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 const Category = () => {
+	const { isLoggedIn } = useSelector((state) => state.auth);
+	// const { user: currentUser } = useSelector((state) => state.auth);
+
 	// initialize category list using usestate hooks
 	const [category_list, setCategory_list] = useState([]);
 
 	// useffect hook to fetch data ,fire when app loads
 	useEffect(() => {
-		retrieveAllCategory();
+		if (isLoggedIn === true) {
+			retrieveAllCategory();
+		}
 	}, []);
 
+	if (isLoggedIn === false) {
+		return <Redirect to="/login" />;
+	}
 	const retrieveAllCategory = () => {
+		console.log(isLoggedIn);
+
 		categoryDataService
 			.getAll()
 			.then((response) => {
@@ -53,7 +66,6 @@ const Category = () => {
 					</tr>
 				</thead>
 				<tbody>
-				
 					{category_list ? (
 						category_list.map((category, index) => (
 							<tr key={index}>
@@ -76,8 +88,7 @@ const Category = () => {
 						<tr>
 							<td>No Category</td>
 						</tr>
-					)
-					}
+					)}
 				</tbody>
 			</Table>
 		</div>

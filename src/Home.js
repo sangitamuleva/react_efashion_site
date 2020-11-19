@@ -1,12 +1,6 @@
 import React from "react";
-import slider_bg2 from "./images/slider/slider_bg2.jpg";
-import slide2 from "./images/slider/slide2.png";
-import slide1 from "./images/slider/slide1.png";
-import slider_bg1 from "./images/slider/slider_bg1.jpg";
-
 import bag1 from "./images/product/bag1.png";
 import sandle from "./images/product/sandle.png";
-import t1 from "./images/product/t1.png";
 import t2 from "./images/product/t2.png";
 const Home = () => {
 	return (

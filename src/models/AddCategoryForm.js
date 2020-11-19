@@ -2,22 +2,29 @@ import React, { useState } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import categoryDataService from "../services/categorySrvices";
 import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+
+import { useSelector } from "react-redux";
 
 const AddCategoryForm = () => {
+	const { isLoggedIn } = useSelector((state) => state.auth);
+
 	const initialCategoryState = {
 		id: null,
 		category_name: "",
 	};
 
 	const [category_list, setCategory_list] = useState(initialCategoryState);
-	
+
 	const history = useHistory();
 
+	if (isLoggedIn === false) {
+		return <Redirect to="/login" />;
+	}
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
 		setCategory_list({ ...category_list, [name]: value });
 	};
-
 
 	const saveCategory = (e) => {
 		e.preventDefault();
@@ -61,14 +68,14 @@ const AddCategoryForm = () => {
 									onChange={handleInputChange}
 								/>
 							</Form.Group>
-
-							<Button variant="primary" type="submit" onClick={saveCategory}>
-								Create Category
-							</Button>
-
-							<Button variant="light" href="/category">
-								Cancel
-							</Button>
+							<Form.Group>
+								<Button variant="primary" type="submit" onClick={saveCategory}>
+									Create Category
+								</Button>{" "}
+								<Button variant="light" href="/category">
+									Cancel
+								</Button>
+							</Form.Group>
 						</Form>
 					</Col>
 				</Row>

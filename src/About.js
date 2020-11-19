@@ -1,8 +1,8 @@
 import React from "react";
 
-import person1 from './images/product/person1.jpg';
-import person2 from './images/product/person2.jpg';
-import person3 from './images/product/person3.jpg';
+import person1 from "./images/product/person1.jpg";
+import person2 from "./images/product/person2.jpg";
+import person3 from "./images/product/person3.jpg";
 
 const About = () => {
 	return (
@@ -64,7 +64,6 @@ const About = () => {
 							className="carousel slide"
 							data-ride="carousel"
 						>
-							
 							<div className="carousel-inner" role="listbox">
 								<div className="item active">
 									<div className="single_review">
@@ -108,7 +107,6 @@ const About = () => {
 											Lorem Ipsum is simply dummy text of the printing and
 											typesetting industry Lorem Ipsum has been the industry's
 										</p>
-										
 									</div>
 								</div>
 							</div>
