@@ -10,6 +10,7 @@ import React from "react";
 import Home from "./Home";
 import About from "./About";
 import Contact from "./Contact";
+import Shop from "./Shop";
 import { Layout } from "./components/Layout";
 import { Navsbar } from "./components/Navsbar";
 import Category from "./models/Category";
@@ -68,6 +69,9 @@ function App() {
 						</Route>
 						<Route exact path="/reset_password">
 							<ResetPasswordConfirm />
+						</Route>
+						<Route exact path="/shop">
+							<Shop />
 						</Route>
 						<Route path={["/", "/home"]}>
 							<Home />

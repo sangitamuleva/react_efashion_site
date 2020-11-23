@@ -29,7 +29,7 @@ export const Navsbar = (props) => {
 						<Nav.Link href="/" className="outline-success">
 							Home
 						</Nav.Link>
-
+						<Nav.Link href="/shop">Shop</Nav.Link>
 						<Nav.Link href="/about">About Us</Nav.Link>
 						<Nav.Link href="/contact">Contact</Nav.Link>
 
@@ -42,7 +42,7 @@ export const Navsbar = (props) => {
 							<Nav.Link href="/" className="outline-success">
 								Home
 							</Nav.Link>
-
+							<Nav.Link href="/shop">Shop</Nav.Link>
 							<Nav.Link href="/about">About Us</Nav.Link>
 							<Nav.Link href="/contact">Contact</Nav.Link>
 							<NavDropdown title="Category" id="category_dropdown">
